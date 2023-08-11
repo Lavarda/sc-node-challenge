@@ -1,0 +1,26 @@
+# Ignore ignore files
+.prettierignore
+.gitignore
+
+# Ignore rc files
+.prettierrc
+
+# Ignore artifacts:
+dist
+
+# Ignore Markdown files
+*.md
+
+# Ignore JSON configs
+*.json
+
+# Ignore ML configs
+*.yaml
+*.yml
+
+# Ignore Docker files
+Dockerfile
+docker-compose.yml
+
+# Ignore coverage report
+coverage
