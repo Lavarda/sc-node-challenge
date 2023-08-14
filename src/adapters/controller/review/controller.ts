@@ -5,7 +5,6 @@ import iReviewUseCase from 'src/usecases/review/iface';
 import REFS from '../../../services/references'
 
 @controller('/reviews')
-@injectable()
 export class ReviewController extends BaseHttpController implements interfaces.Controller {
     constructor(
         @inject(REFS.ReviewUseCase) private reviewUseCase: iReviewUseCase
@@ -14,7 +13,7 @@ export class ReviewController extends BaseHttpController implements interfaces.C
     }
 
     @httpPost('/')
-    async createReview (@request() req: express.Request, @response() res: express.Response): Promise<void>{
+    async createReview(@request() req: express.Request, @response() res: express.Response): Promise<void>{
         const { tmdbId, userName, rating } = req.body;
 
         try {

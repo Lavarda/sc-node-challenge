@@ -1,11 +1,10 @@
 import { Request, Response } from 'express';
 import { inject, injectable } from 'inversify';
-import { BaseHttpController, controller, httpPost, interfaces, request, response } from 'inversify-express-utils';
+import { BaseHttpController, controller, httpPost, httpGet, interfaces, request, requestParam, response } from 'inversify-express-utils';
 import REFS from '../../../services/references'
 import { iMovieUseCase } from 'src/usecases/movie/iface';
 
 @controller('/movies')
-@injectable()
 export default class MovieController extends BaseHttpController implements interfaces.Controller {
     constructor(
         @inject(REFS.MovieUseCase) private movieUseCase: iMovieUseCase
@@ -21,6 +20,22 @@ export default class MovieController extends BaseHttpController implements inter
             const movie = await this.movieUseCase.createMovie({ title, releaseDate, poster, overview, tmdbId });
 
             res.status(201).json(movie);
+        } catch (err) {
+            console.log(err)
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+    
+    @httpGet('/:tmdbId/reviews')
+    async getMovieByTmdbId(@requestParam("tmdbId") tmdbId: number, @response() res: Response) {
+        try {
+            const movies = await this.movieUseCase.getMoviesByTmdbId(tmdbId);
+
+            if (movies.length < 1) {
+                res.status(404).json({ message: 'Movie not found'})
+            }
+
+            res.status(201).json(movies);
         } catch (err) {
             console.log(err)
             res.status(500).json({ error: 'Internal server error' });

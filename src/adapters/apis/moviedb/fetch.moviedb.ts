@@ -1,15 +1,11 @@
-const axios = require('axios');
+import { injectable } from "inversify";
 
-interface FetchedTheMovieDb {
-    title: string;
-    releaseDate: string;
-    poster: string;
-    overview: string;
-}
+import axios from 'axios';
+import { iFetchMovieDb, iFetchedTheMovieDBResponseDTO, iFetchedTheMovieDbOutputDTO } from "./iface";
 
-export class FetchTheMovieDb {
-    async fetchMovieDb (tmdbId: number): Promise<FetchedTheMovieDb>{
-
+@injectable()
+export class FetchTheMovieDb implements iFetchMovieDb{
+    async fetchMovieDb (tmdbId: number): Promise<iFetchedTheMovieDbOutputDTO>{
         const options = {
             method: 'GET',
             url: `https://api.themoviedb.org/3/movie/${tmdbId}`,
@@ -19,16 +15,20 @@ export class FetchTheMovieDb {
             }
         };
 
-        const { data } = await axios.request(options)
-            .catch(function (error) {
-                console.error(error);
+        const response = await axios.request<iFetchedTheMovieDBResponseDTO>(options)
+            .catch(function () {
+                throw new Error('Failed to fetch movie from The Movie DB');
             });
 
-        return {
-            title: data.title,
-            releaseDate: data.release_date,
-            poster: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
-            overview: data.overview,
+        if (response && response.data) {
+            const { data } = response;
+            return {
+                title: data.title,
+                releaseDate: data.release_date,
+                poster: `https://image.tmdb.org/t/p/original/${data.poster_path}`,
+                overview: data.overview,
+            }
         }
     }
+
 }

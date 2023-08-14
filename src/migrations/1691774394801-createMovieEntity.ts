@@ -35,6 +35,7 @@ export class createMovieEntity1691774394801 implements MigrationInterface {
                 {
                     name: 'reviewId',
                     type: 'int4',
+                    isNullable: true
                 },
             ],
             foreignKeys: [

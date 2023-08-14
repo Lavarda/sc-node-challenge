@@ -21,14 +21,14 @@ export default class Movie {
     @Column()
     overview: string;
 
-    @Column({ type: 'int4' })
+    @Column({ type: 'int4', nullable: true })
     reviewId?: number;
 
     @ManyToOne(() => Review, (review) => review.movies)
     @JoinColumn({ name: 'reviewId', referencedColumnName: 'id' })
-    review?: Review;
+    review?: Review[];
 
-    createMovie(payload: { tmdbId, title, releaseDate, poster, overview }): Movie {
+    createMovie(payload: { tmdbId, title, releaseDate, poster, overview, reviewId }): Movie {
         const movie = new Movie()
 
         movie.tmdbId = payload.tmdbId
@@ -36,6 +36,7 @@ export default class Movie {
         movie.poster = payload.poster
         movie.title = payload.title
         movie.releaseDate = payload.releaseDate
+        movie.reviewId = payload.reviewId
 
         return movie;
     }

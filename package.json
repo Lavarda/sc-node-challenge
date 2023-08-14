@@ -4,9 +4,9 @@
   "description": "",
   "main": "server.ts",
   "scripts": {
-    "build": "babel src --extensions \".js,.ts\" --out-dir dist --copy-files --no-copy-ignored",
-    "dev": "ts-node-dev -r tsconfig-paths/register --respawn --transpile-only --ignore-watch node_modules --no-notify src/server.ts",
-    "start": "node dist/server.js",
+    "build": "tsc",
+    "dev": "ts-node-dev -r tsconfig-paths/register --transpile-only src/server.ts",
+    "start": "ts-node src/server.js",
     "migration": "npx typeorm migration:create -n",
     "migrate": "npx typeorm migration:run",
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
@@ -40,6 +40,7 @@
     "typescript": "^4.7.3"
   },
   "dependencies": {
+    "axios": "^1.4.0",
     "body-parser": "^1.20.2",
     "class-validator": "^0.14.0",
     "cors": "^2.8.5",

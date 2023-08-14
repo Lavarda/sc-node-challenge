@@ -6,10 +6,10 @@
     "username": "postgres",
     "password": "admin",
     "entities": [
-        "dist/database/entities/**/*.{ts,js}"
+        "dist/entities/**/*.{ts,js}"
     ],
     "migrations": [
-        "dist/database/migrations/**/*.{ts,js}"
+        "dist/migrations/**/*.{ts,js}"
     ],
     "cli": {
         "entitiesDir": "src/entities",

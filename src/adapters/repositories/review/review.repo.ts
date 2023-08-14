@@ -12,6 +12,6 @@ export class ReviewRepository implements iReviewRepository {
     }
     
     async selectReviewByUsername(userName: string): Promise<Review[]> {
-        return this.reviewRepository.find({ where: { userName } })
+        return this.reviewRepository.find({ where: { userName: userName } })
     }
 }

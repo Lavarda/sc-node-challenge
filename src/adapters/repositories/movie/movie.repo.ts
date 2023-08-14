@@ -8,7 +8,7 @@ export default class MoviesRepository implements iMovieRepository {
     private moviesRepositories = getRepository(Movie)
     
     async createMovies(movie: Movie): Promise<Movie> {
-        const movieCreated =await this.moviesRepositories.save(movie)
+        const movieCreated = await this.moviesRepositories.save(movie)
         return this.moviesRepositories.findOne({ where: { id: movieCreated.id }})
     }
 
@@ -18,5 +18,9 @@ export default class MoviesRepository implements iMovieRepository {
     
     async selectMoviesById(tmdbId: number): Promise<Movie[]> {
         return this.moviesRepositories.find({ where: { tmdbId }, relations: ['review'] })
+    }
+
+    async selectMovieById(tmdbId: number): Promise<Movie> {
+        return this.moviesRepositories.findOne({ where: { tmdbId: tmdbId } })
     }
 }
